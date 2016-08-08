@@ -6,8 +6,6 @@ Un *iterador* es un objeto que provee un método `next()` que retorna dos propie
 *String*, *Array*, *TypedArray*, *Map* y *Set* son iterables por defecto, mientras que un *Object* no lo es. Para entender mejor los iteradores, podemos hacer un *Object* iterable, implementando  `[Symbol.iterator]` como una función:
 
 ```javascript
-  'use strict';
-
   const mascotas = {
     '🐶': {
       name: 'oblina',

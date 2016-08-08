@@ -43,23 +43,40 @@ Un *iterador* es un objeto que provee un método `next()` que retorna dos propie
   }
 ```
 ## Map
+Colección de pares *key-value* de [tipos válidos de es6](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types). Un *Object* es también una colección de pares *key-value*, pero este sólo puede tener como llaves *Strings* y *Symbols*. Además se diferencian en la forma de encontrar el tamaño de la colección, ya que *Map* permite obtenerlo fácilmente, mientras que será necesario conseguirlo manualmente desde un objeto.
+
+Es posible crear un *Map* vacío o desde una colección de pares `[key, value]`:
+```javascript
+let animals = new Map();
+let insects = new Map([["snail","🐌"], ["bee","🐝"]]);
+```
+
 ## Set
-Colecciones de [tipos válidos de es6](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types), donde cada valor distinto puede aparecer una única vez. Podemos crear un *Set* vacío o desde un iterable:
+Colección de [tipos válidos de es6](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types), donde cada valor distinto puede aparecer una única vez. Podemos crear un *Set* vacío o desde un iterable:
 
 ```javascript
 let fruits = new Set();
 let food = new Set("🌽🍯🧀🍅");
 ```
 
-
-Es posible obtener eficientemente el tamaño de un *Set* ya que se almacena como una *property*:
+Es posible obtener eficientemente el tamaño de un *Set* o *Map* ya que se almacena como una *property*:
 
 ```javascript
+insects.size
+// > 2
 food.size;
 // > 4
 ```
 
-El método `.has(value)` nos permite verificar la existencia de *value* en el set:
+En un *Map* podemos obtenemos el valor de una llave utilizando `.get()`:
+```javascript
+insects.get('snail');
+// > '🐌'
+insects.get('ant');
+// > undefined
+```
+
+Análogamente, el método `.has(value)` nos permite verificar la existencia de *value* en el set:
 ```javascript
 food.has('🧀');
 // > true
@@ -68,10 +85,24 @@ food.has('🍫');
 ```
 
 ### Manipular Map y Set
-Para manipular un *Set*, se tienen los métodos `.add(value)`, `.clear()` y `.delete(value)`:
-* `.add(value)`:
+Métodos para agregar y eliminar elementos de la colección:
 
 
+#### Map
+```javascript
+animals.set("snail","🐌")
+// > Map { 'snail' => '🐌' }
+animals.set("bee","🐝").set("dog","🐶")
+// > Map { 'snail' => '🐌', 'bee' => '🐝', 'dog' => '🐶' }
+animals.delete("bee")
+// > true
+animals.delete("bee")
+// > false
+animals.clear()
+// > undefined
+```
+
+#### Set
 ```javascript
 fruits.add('🍌')
 // > Set {'🍌' }
@@ -84,14 +115,30 @@ fruits.delete('🍌')
 fruits.clear()
 // > undefined
 ```
-* `.add(value)` retorna el *Set* luego de insertar *value* en él
+* `.add(value)` y `set(key, value)` retorna la colección luego de insertar *value* en ella
 * `.clear()` retorna *undefined* luego de eliminar todas las entradas
-* `.delete(value)` retorna el valor que `.has(value)` habría retornado previamente, luego de eliminar *value* del *Set* si estaba presente.
+* `.delete(value)` retorna el valor que `.has(value)` habría retornado previamente, luego de eliminar *value* de la colección si estaba presente.
 
 ### Iteradores en Map y Set
 
-Podemos obtener iteradores desde un *Set* con los métodos:
+
 ```javascript
+animals.entries()
+// > MapIterator { [ 'snail', '🐌' ], [ 'bee', '🐝' ], [ 'dog', '🐶' ] }
+animals.keys()
+// > MapIterator { 'snail', 'bee', 'dog' }
+animals.values()
+// > MapIterator { '🐌', '🐝', '🐶' }
+```
+
+```javascript
+animals.entries()
+// > MapIterator { [ 'snail', '🐌' ], [ 'bee', '🐝' ], [ 'dog', '🐶' ] }
+animals.keys()
+// > MapIterator { 'snail', 'bee', 'dog' }
+animals.values()
+// > MapIterator { '🐌', '🐝', '🐶' }
+
 fruits.entries()
 // > SetIterator { [ '🍒', '🍒' ], [ '🍑', '🍑' ], [ '🍍', '🍍' ] }
 fruits.keys()
@@ -100,7 +147,7 @@ fruits.values()
 // > SetIterator { '🍒', '🍑', '🍍' }
 ```
 
-Será posible entonces utilizar *for of* para iterar sobre un set:
+Será posible entonces utilizar *for of* para iterar sobre las colecciones:
 ```javascript
 for (let fruit of fruits) {}
 for (let fruit of fruits.keys()) {} //idéntico a lo anterior

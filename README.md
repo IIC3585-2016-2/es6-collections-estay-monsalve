@@ -42,6 +42,79 @@ Un *iterador* es un objeto que provee un método `next()` que retorna dos propie
     console.log(a);
   }
 ```
+
+## Generadores
+Los generadores son funciones que se pueden detener con una 'señal' interna, enviando un javascript value al scope superior, y luego con una 'señal' externa, resumir la ejecución de la función con un javascript value recibido.
+
+```javascript
+function* foo(x){
+  let a = yield (x + 1);
+  let b = yield(2 * a);
+  return b;
+}
+// Un generador no se ejecuta cuando se declara.
+
+var generator_test = foo(1);
+// Ingreso el valor 1 al generador.
+
+console.log(generator_test.next()) // { value: 2, done: false }
+// El generador ejecuta (x + 1), retorna el resultado y se detiene.
+console.log(generator_test.next(3)) // { value: 6, done: false }
+// Se ingresa el valor 3 en a, se ejecuta 2 * a, se retorna el resultado y se detiene.
+console.log(generator_test.next(4)) // { value: 4, done: true }
+// Se ingresa el valor 4 en b, se devuelve el resultado de b, y la condición done cambia a true, porque se ejecutó el generador completamente
+
+```
+
+También podemos ver los generadores como iteradores, por ejemplo, podemos hacer un objeto iterable o definir una clase, y hacer que los objetos correspondientes a la clase sean iterables (sobre sus parámetros):
+
+```javascript
+let mascota = {
+  nombre: 'oblina',
+  edad: 6,
+  foto: '🐶',
+}
+
+mascota[Symbol.iterator] = function* () {
+  yield this.nombre;
+  yield this.edad;
+  yield this.foto;
+}
+
+for(let propiedad of mascota){
+  console.log(propiedad);
+}
+
+// oblina
+// 6
+// 🐶
+
+class Perro{
+  constructor(nombre, edad, foto){
+    this.nombre = nombre;
+    this.edad = edad;
+    this.foto = foto;
+  }
+  *[Symbol.iterator](){
+    yield this.nombre;
+    yield this.edad;
+    yield this.foto;
+  }
+}
+
+let perro = new Perro('oblina', 6, '🐶');
+
+for(let propiedad of perro){
+  console.log(propiedad);
+}
+
+// oblina
+// 6
+// 🐶
+
+```
+
+
 ## Map
 Colección de pares *key-value* de [tipos válidos de es6](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types). Un *Object* es también una colección de pares *key-value*, pero este sólo puede tener como llaves *Strings* y *Symbols*. Además se diferencian en la forma de encontrar el tamaño de la colección, ya que *Map* permite obtenerlo fácilmente, mientras que será necesario conseguirlo manualmente desde un objeto.
 

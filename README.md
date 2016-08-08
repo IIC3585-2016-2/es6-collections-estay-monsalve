@@ -121,7 +121,7 @@ fruits.clear()
 
 ### Iteradores en Map y Set
 
-
+#### Map
 ```javascript
 animals.entries()
 // > MapIterator { [ 'snail', '🐌' ], [ 'bee', '🐝' ], [ 'dog', '🐶' ] }
@@ -130,15 +130,8 @@ animals.keys()
 animals.values()
 // > MapIterator { '🐌', '🐝', '🐶' }
 ```
-
+#### Set
 ```javascript
-animals.entries()
-// > MapIterator { [ 'snail', '🐌' ], [ 'bee', '🐝' ], [ 'dog', '🐶' ] }
-animals.keys()
-// > MapIterator { 'snail', 'bee', 'dog' }
-animals.values()
-// > MapIterator { '🐌', '🐝', '🐶' }
-
 fruits.entries()
 // > SetIterator { [ '🍒', '🍒' ], [ '🍑', '🍑' ], [ '🍍', '🍍' ] }
 fruits.keys()

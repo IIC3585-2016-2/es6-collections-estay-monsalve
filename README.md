@@ -42,6 +42,7 @@ Un *iterador* es un objeto que provee un método `next()` que retorna dos propie
     console.log(a);
   }
 ```
+## Map
 ## Set
 Colecciones de [tipos válidos de es6](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types), donde cada valor distinto puede aparecer una única vez. Podemos crear un *Set* vacío o desde un iterable:
 
@@ -49,6 +50,7 @@ Colecciones de [tipos válidos de es6](http://www.ecma-international.org/ecma-26
 let fruits = new Set();
 let food = new Set("🌽🍯🧀🍅");
 ```
+
 
 Es posible obtener eficientemente el tamaño de un *Set* ya que se almacena como una *property*:
 
@@ -65,6 +67,7 @@ food.has('🍫');
 // > false
 ```
 
+### Manipular Map y Set
 Para manipular un *Set*, se tienen los métodos `.add(value)`, `.clear()` y `.delete(value)`:
 * `.add(value)`:
 
@@ -84,6 +87,8 @@ fruits.clear()
 * `.add(value)` retorna el *Set* luego de insertar *value* en él
 * `.clear()` retorna *undefined* luego de eliminar todas las entradas
 * `.delete(value)` retorna el valor que `.has(value)` habría retornado previamente, luego de eliminar *value* del *Set* si estaba presente.
+
+### Iteradores en Map y Set
 
 Podemos obtener iteradores desde un *Set* con los métodos:
 ```javascript

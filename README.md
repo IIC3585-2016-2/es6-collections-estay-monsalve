@@ -110,6 +110,9 @@ for(let propiedad of perro){
 // 6
 // 🐶
 
+var propiedades_perro = [...perro];
+
+console.log(propiedades_perro);
 ```
 
 
@@ -220,3 +223,7 @@ for (let [key, value] of fruits.entries()) {}
 
 es6 no implementa los *array helpers* para *Sets* y *Maps*, estos son `.map()`, `.filter()`, `.some()`, `.every()`.
 Además para *Sets* sería útil poder ejecutar métodos de intersección y unión, pero estos no están implementados.
+
+#### Weakset y Weakmap
+
+Son un subconjunto de Set y Map, sin sus iteradores. Los values de un Weakset sólo pueden ser objetos, al igual que las keys de un Weakmap, y las referencias a estos objetos son débiles, por lo que, sino hay más referencias al objeto puede ser recolectada la memoria ocupada, por el garbage collector.

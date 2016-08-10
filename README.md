@@ -42,7 +42,7 @@ Un *iterador* es un objeto que provee un método `next()` que retorna dos propie
 ```
 
 ## Generadores
-Los generadores son funciones que se pueden detener con una 'señal' interna, enviando un javascript value al scope superior, y luego con una 'señal' externa, resumir la ejecución de la función con un javascript value recibido.
+Los generadores son funciones que se pueden detener con una **señal** interna, enviando un *Javascript Value* al *scope* superior. Luego con una **señal** externa, resumir la ejecución de la función con un *JavaScript value* recibido.
 
 ```javascript
 function* foo(x){
@@ -50,71 +50,67 @@ function* foo(x){
   let b = yield(2 * a);
   return b;
 }
-// Un generador no se ejecuta cuando se declara.
-
-var generator_test = foo(1);
-// Ingreso el valor 1 al generador.
-
-console.log(generator_test.next()) // { value: 2, done: false }
-// El generador ejecuta (x + 1), retorna el resultado y se detiene.
-console.log(generator_test.next(3)) // { value: 6, done: false }
-// Se ingresa el valor 3 en a, se ejecuta 2 * a, se retorna el resultado y se detiene.
-console.log(generator_test.next(4)) // { value: 4, done: true }
-// Se ingresa el valor 4 en b, se devuelve el resultado de b, y la condición done cambia a true, porque se ejecutó el generador completamente
-
 ```
+Un generador no se ejecuta cuando se declara.
+```javascript
+var generator_test = foo(1);
 
-También podemos ver los generadores como iteradores, por ejemplo, podemos hacer un objeto iterable o definir una clase, y hacer que los objetos correspondientes a la clase sean iterables (sobre sus parámetros):
+generator_test.next()
+// > { value: 2, done: false }
+generator_test.next(3)
+// > { value: 6, done: false }
+generator_test.next(4)
+// > { value: 4, done: true }
+```
+El código anterior sigue los siguientes pasos:
+1. Ingreso el valor 1 al generador.
+2. El generador ejecuta (x + 1), retorna el resultado y se detiene.
+3. Se ingresa el valor 3 en a, se ejecuta 2 * a, se retorna el resultado y se detiene.
+4. Se ingresa el valor 4 en b, se devuelve el resultado de b, y la condición *done* cambia a *true*, porque se ejecutó el generador completamente.
+
+También es posible ver los generadores como iteradores. Un ejemplo de esto es hacer un objeto o una clase iterable. En el segundo caso, se define una clase, y los objetos correspondientes a la clase serán iterables (sobre sus parámetros).
 
 ```javascript
 let mascota = {
   nombre: 'oblina',
   edad: 6,
-  foto: '🐶',
+  emoji: '🐶',
 }
 
 mascota[Symbol.iterator] = function* () {
   yield this.nombre;
   yield this.edad;
-  yield this.foto;
+  yield this.emoji;
 }
 
-for(let propiedad of mascota){
-  console.log(propiedad);
-}
+for(let propiedad of mascota) console.log(propiedad);
 
-// oblina
-// 6
-// 🐶
-
+// > oblina
+// > 6
+// > 🐶
+```
+```javascript
 class Perro{
-  constructor(nombre, edad, foto){
+  constructor(nombre, edad, emoji){
     this.nombre = nombre;
     this.edad = edad;
-    this.foto = foto;
+    this.emoji = emoji;
   }
   *[Symbol.iterator](){
     yield this.nombre;
     yield this.edad;
-    yield this.foto;
+    yield this.emoji;
   }
 }
 
-let perro = new Perro('oblina', 6, '🐶');
+const perro = new Perro('oblina', 6, '🐶');
 
-for(let propiedad of perro){
-  console.log(propiedad);
-}
+for(let propiedad of perro) console.log(propiedad);
 
-// oblina
-// 6
-// 🐶
-
-var propiedades_perro = [...perro];
-
-console.log(propiedades_perro);
+// > oblina
+// > 6
+// > 🐶
 ```
-
 
 ## Map
 Colección de pares *key-value* de [tipos válidos de es6](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types). Un *Object* es también una colección de pares *key-value*, pero este sólo puede tener como llaves *Strings* y *Symbols*. Además se diferencian en la forma de encontrar el tamaño de la colección, ya que *Map* permite obtenerlo fácilmente, mientras que será necesario conseguirlo manualmente desde un objeto.
@@ -221,9 +217,13 @@ for (let fruit of fruits.keys()) {} //idéntico a lo anterior
 for (let [key, value] of fruits.entries()) {}
 ```
 
-es6 no implementa los *array helpers* para *Sets* y *Maps*, estos son `.map()`, `.filter()`, `.some()`, `.every()`.
-Además para *Sets* sería útil poder ejecutar métodos de intersección y unión, pero estos no están implementados.
+En es6 no se implementan los *array helpers* para *Sets* y *Maps*, tales como, `.map()`, `.filter()`, `.some()`, `.every()`.
+Además para *Sets* sería útil poder ejecutar métodos como intersección o unión, pero estos no están implementados.
 
 #### Weakset y Weakmap
 
-Son un subconjunto de Set y Map, sin sus iteradores. Los values de un Weakset sólo pueden ser objetos, al igual que las keys de un Weakmap, y las referencias a estos objetos son débiles, por lo que, sino hay más referencias al objeto puede ser recolectada la memoria ocupada, por el garbage collector.
+Son un subconjunto de *Set* y *Map*, sin sus iteradores. Los valores de un *Weakset* sólo pueden ser objetos, al igual que las llaves de un *Weakmap*. Las referencias a estos objetos son débiles, lo que implica que si no hay más referencias a este, el garbage collector puede recolectar la memoria ocupada.
+
+## Referencias
+* [ECMAScript 2015 Language Specification](http://www.ecma-international.org/ecma-262/6.0/)
+* [MDN: JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Built-in_iterables)

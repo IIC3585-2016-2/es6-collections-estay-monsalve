@@ -28,7 +28,7 @@ const mascotas = {
   }
 };
 
-console.log(mascotas);
+// console.log(mascotas);
 
 for (let a of mascotas) {
   console.log(a);
